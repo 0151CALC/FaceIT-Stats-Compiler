@@ -14,7 +14,7 @@ UKCLSheet = '1fPHpp7ukvn828R0QFM-gI-C-riRvdMRyt42P32wluL4'
 Div1Sheet = '16k5B3zd0Ru7Vae99uE0T768Szpo3TLfKsrSwhPDYpeo'
 Div2Sheet = '1yJth-Xd6uZWzxQ8LQld6ex0NDl_eTWvBa9QSGAdaUFo'
 
-SPREADSHEET_ID = Div2Sheet
+SPREADSHEET_ID = UKCLSheet
 SAMPLE_RANGE_NAME = 'Sheet1!A2:N'
 
 creds = None
@@ -67,7 +67,7 @@ def round_half_up(n, decimals=0):
     multiplier = 10 ** decimals
     return math.floor(n*multiplier + 0.5) / multiplier
 
-returnNum = 100
+returnNum = 250
 offset = 0
 match_IDs = []
 players = []
@@ -83,7 +83,7 @@ UKCLHub = '2c01f318-2c99-406c-af29-6e89dc8b8aa1'
 Div1Hub = 'c25f2623-2d98-4d11-9b22-bbb80dab8510'
 Div2Hub = '47d463c5-692c-4357-9f19-aa2edf5ae3a9'
 
-hub = Div2Hub
+hub = UKCLHub
 
 while len(match_IDs) != returnNum:
 
