@@ -15,7 +15,7 @@ def round_half_up(n, decimals=0):
     return math.floor(n*multiplier + 0.5) / multiplier
 
 offset = 0
-returnNum = 50
+returnNum = 20
 hub_Name = 'UKCL'
 player_ID = '49c55dd0-10c8-4b56-91de-57a822fa46f9'
 
@@ -68,7 +68,7 @@ for prog, match_ID in enumerate(match_IDs):
 
     response = requests.get('https://open.faceit.com/data/v4/matches/' + match_ID + '/stats', headers=headers)
     matchStats = response.json()
-
+    print(match_ID)
     for match in matchStats['rounds']:
 
         matchStats = match['round_stats']
