@@ -8,6 +8,7 @@ import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
+from datetime import date
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
@@ -70,10 +71,10 @@ def round_half_up(n, decimals=0):
     multiplier = 10 ** decimals
     return math.floor(n*multiplier + 0.5) / multiplier
 
-returnNum = 250
 offset = 0
 match_IDs = []
 players = []
+date = datetime.datetime.now()
 
 headers = {
     'accept': 'application/json',
@@ -97,11 +98,11 @@ season = response.json()
 seasonStartTime = season['items'][0]['start_date']
 noMoreInSeason = False
 
-print(datetime.datetime.utcfromtimestamp(seasonStartTime), '\n')
+#print(datetime.datetime.utcfromtimestamp(seasonStartTime), '\n')
 
 print('Compiling Matches, Please Wait...')
 
-while len(match_IDs) != returnNum and noMoreInSeason == False:
+while noMoreInSeason == False:
 
     params = (
         ('offset', offset + len(match_IDs)),
@@ -117,7 +118,10 @@ while len(match_IDs) != returnNum and noMoreInSeason == False:
             offset = offset + 1
         elif element['configured_at'] < seasonStartTime:
             noMoreInSeason = True
+            print()
             print('All matches for current Season Retreived')
+
+    print('Matches Found: ' + str(len(match_IDs)) + ' | Cancelled Matches: ' + str(offset) + ' | Total: ' + str(len(match_IDs) + offset), end = '\r')
 
 print(len(match_IDs), 'matches returned. A total of', len(match_IDs) + offset, 'matches were found but', offset, 'where either cancelled or did not start.')
 
@@ -249,4 +253,10 @@ body = {
     'values': restructuredPlayerData
 }
 
-result = service.spreadsheets().values().update(spreadsheetId=SPREADSHEET_ID, range='A2:U', valueInputOption='RAW', body=body).execute()
+result = service.spreadsheets().values().update(spreadsheetId=SPREADSHEET_ID, range='A5:U', valueInputOption='RAW', body=body).execute()
+
+body = {
+    'values': [['','','','','','','','Last', 'Updated', 'On', date.strftime('%d/%m/%Y'), '@', date.strftime('%I:%M %p'),'','','','','','','','',]]
+}
+
+result = service.spreadsheets().values().update(spreadsheetId=SPREADSHEET_ID, range='A3:U', valueInputOption='RAW', body=body).execute()
