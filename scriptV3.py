@@ -87,13 +87,28 @@ Div2Hub = '47d463c5-692c-4357-9f19-aa2edf5ae3a9'
 
 hub = UKCLHub
 
+leaderboardOffset = 0
+
 params = (
-    ('offset', '0'),
+    ('offset', leaderboardOffset),
     ('limit', '1'),
 )
 
 response = requests.get('https://open.faceit.com/data/v4/leaderboards/hubs/2c01f318-2c99-406c-af29-6e89dc8b8aa1', headers=headers, params=params)
 season = response.json()
+
+if (season['items'][0]['status'] == 'UPCOMING'):
+	
+	leaderboardOffset = leaderboardOffset + 1
+	
+	params = (
+		('offset', leaderboardOffset),
+		('limit', '1'),
+	)
+	
+	response = requests.get('https://open.faceit.com/data/v4/leaderboards/hubs/2c01f318-2c99-406c-af29-6e89dc8b8aa1', headers=headers, params=params)
+	season = response.json()
+
 
 seasonStartTime = season['items'][0]['start_date']
 noMoreInSeason = False
